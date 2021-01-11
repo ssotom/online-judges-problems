@@ -5,46 +5,59 @@
   Version     : HackerRank - Accepted
   link        : https://www.hackerrank.com/challenges/balanced-brackets
   Created on 2017
+  Edited on January 2021
  ============================================================================*/
 
- import java.io.*;
+import java.io.*;
 import java.util.*;
-import java.text.*;
-import java.math.*;
-import java.util.regex.*;
-
-public class Solution {
-
-    static String isBalanced(String s) {
-        Stack<Character> pila = new Stack<Character>();
-        for(int i=0;i<s.length();i++){
-            char c=s.charAt(i);
-            if(c=='('|| c=='{' || c=='['){
-                pila.push(c);
-            }else if(!pila.empty()){
-                char d=pila.pop();
-                if((d=='('&& c==')')||(d=='{'&& c=='}')||(d=='['&& c==']')){
-                    continue;
-                }else{
-                    pila.push(d);
-                }       
-            }else{pila.push(c);break;}
-        }if(pila.empty()){
-            return "YES";
-        }else{
-           return "NO";
-        }
-    }
 
 
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int t = in.nextInt();
-        for(int a0 = 0; a0 < t; a0++){
-            String s = in.next();
-            String result = isBalanced(s);
-            System.out.println(result);
-        }
-        in.close();
-    }
+public class Solution
+{
+
+	static String isBalanced(String str) {
+		Deque<Character> deque = new LinkedList<>();
+
+		if (str.length() % 2 != 0 || str.startsWith(")") || str.startsWith("}") || str.startsWith("]")) {
+			return "NO";
+		}
+
+		for (char ch : str.toCharArray()) {
+			if (ch == '{' || ch == '[' || ch == '(') {
+				deque.push(ch);
+			} else if (!deque.isEmpty()) {
+				char ch2 = deque.peek();
+				if ((ch2 == '(' && ch == ')') || (ch2 == '{' && ch == '}') || (ch2 == '[' && ch == ']')) {
+					deque.pop();
+				} else {
+					break;
+				}
+			}
+		}
+
+		return deque.isEmpty() ? "YES" : "NO";
+	}
+
+
+	private static final Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) throws IOException {
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+		int t = scanner.nextInt();
+		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+		for (int tItr = 0; tItr < t; tItr++) {
+			String s = scanner.nextLine();
+
+			String result = isBalanced(s);
+
+			bufferedWriter.write(result);
+			bufferedWriter.newLine();
+		}
+
+		bufferedWriter.close();
+
+		scanner.close();
+	}
 }

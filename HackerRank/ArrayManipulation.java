@@ -3,8 +3,9 @@
   Author      : Santiago Soto 
   Copyright   : ssotom
   Version     : HackerRank - Accepted
-  link        : https://www.hackerrank.com/challenges/sparse-arrays
+  link        : https://www.hackerrank.com/challenges/crush/problem
   Created on December 2019
+  Edited on January 2021
  ============================================================================*/
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -24,10 +25,9 @@ public class Solution {
             result[b] -= k;
         }
         for (int i = 0; i < n; i++) {
-            result[i+1] += result[i];
+            result[i + 1] += result[i];
         }
-        long max = Arrays.stream(result).max().getAsLong();
-        return max;
+        return Arrays.stream(result).max().orElse(0L);
     }
 
     private static final Scanner scanner = new Scanner(System.in);
